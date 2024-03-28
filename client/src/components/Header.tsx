@@ -7,18 +7,26 @@ export default function Header() {
   const path = useLocation().pathname;
   return (
     <div>
-      <Navbar className="border-b-2" fluid rounded>
+      <Navbar className="border-b-2">
         <Navbar.Brand as={Link} to="/">
+          <img
+            src="../../public/images/logo.png"
+            className="mr-3 h-6 sm:h-9"
+            alt="Flowbite React Logo"
+          />
           <span className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white">
             Expense Tracker
           </span>
         </Navbar.Brand>
         <div className="flex gap-2 md:order-2">
+          {/* Hidden? */}
           <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
             <FaMoon />
           </Button>
           <Link to="signin">
-            <Button gradientDuoTone="purpleToPink">Sign In</Button>
+            <Button gradientDuoTone="purpleToBlue" outline>
+              Sign In
+            </Button>
           </Link>
           <Navbar.Toggle />
         </div>

@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
 
+// TODO: refactor into 6.4 createBrowserRouter
 const App: React.FC = () => (
   <BrowserRouter>
     <Header />
