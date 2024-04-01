@@ -1,7 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import { HiInformationCircle } from 'react-icons/hi';
 import { Link, useNavigate } from 'react-router-dom';
-import { Children, useState } from 'react';
+import { useState } from 'react';
 
 interface IUser {
   username: string;
@@ -96,7 +96,7 @@ export default function Signup() {
               {/* TODO:SHOW PASSWORD BUTTON */}
               <TextInput
                 type="password"
-                placeholder="Password"
+                placeholder="********"
                 id="password"
                 onChange={handleChange}
               />
