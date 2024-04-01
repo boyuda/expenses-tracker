@@ -6,6 +6,7 @@ import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 // TODO: refactor into 6.4 createBrowserRouter
 const App: React.FC = () => (
@@ -18,6 +19,7 @@ const App: React.FC = () => (
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
+    <Footer />
   </BrowserRouter>
 );
 
