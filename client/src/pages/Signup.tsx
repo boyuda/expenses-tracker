@@ -41,6 +41,7 @@ export default function Signup() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      // TODO: add more messages
       if (data.success === false) {
         setLoading(false);
         return setErrorMessage(data.message);
