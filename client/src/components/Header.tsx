@@ -1,6 +1,5 @@
 import { Button, Navbar } from 'flowbite-react';
 import { FaMoon } from 'react-icons/fa';
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
@@ -23,7 +22,7 @@ export default function Header() {
           <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
             <FaMoon />
           </Button>
-          <Link to="signin">
+          <Link to="sign-in">
             <Button gradientDuoTone="purpleToBlue" outline>
               Sign In
             </Button>
