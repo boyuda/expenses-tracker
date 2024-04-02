@@ -1,8 +1,21 @@
-import { Button, Navbar } from 'flowbite-react';
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownDivider,
+  DropdownHeader,
+  DropdownItem,
+  Navbar,
+} from 'flowbite-react';
 import { FaMoon } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 export default function Header() {
+  const { currentUser } = useSelector((state: RootState) => state.user);
+  console.log(currentUser?.username);
+
   const path = useLocation().pathname;
   return (
     <div>
@@ -22,11 +35,34 @@ export default function Header() {
           <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
             <FaMoon />
           </Button>
-          <Link to="sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
-              Sign In
-            </Button>
-          </Link>
+          {currentUser ? (
+            <Dropdown
+              arrowIcon={true}
+              inline
+              // TODO:Maybe add image?
+              label={<Avatar alt="user" rounded />}
+            >
+              <DropdownHeader>
+                <span className="block text-sm">@{currentUser.username}</span>
+                <span className="block text-sm font-semibold truncate">
+                  {currentUser.email}
+                </span>
+              </DropdownHeader>
+
+              <DropdownItem>
+                <Link to="/dashboard?tab=profile">Profile</Link>
+              </DropdownItem>
+              <DropdownDivider />
+              <DropdownItem>Sign out</DropdownItem>
+            </Dropdown>
+          ) : (
+            <Link to="sign-in">
+              <Button gradientDuoTone="purpleToBlue" outline>
+                Sign In
+              </Button>
+            </Link>
+          )}
+
           <Navbar.Toggle />
         </div>
         {/* TODO: ADD CONDITIONAL FOR ACTIVE TEXT COLOR */}
@@ -36,6 +72,14 @@ export default function Header() {
               Home
             </Link>
           </Navbar.Link>
+          {/* If user signed in display dashboard type */}
+          {currentUser ? (
+            <Navbar.Link active={path === '/dashboard'} as={'div'}>
+              <Link to="/" className="font-semibold ">
+                Dashboard
+              </Link>
+            </Navbar.Link>
+          ) : null}
           <Navbar.Link active={path === '/about'} as={'div'}>
             <Link to="/about" className="font-semibold">
               About
