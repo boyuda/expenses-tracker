@@ -18,7 +18,6 @@ export default function Header() {
   // Get current theme
   const { theme } = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch();
-  console.log(theme);
 
   const path = useLocation().pathname;
   return (
@@ -85,7 +84,7 @@ export default function Header() {
           {/* If user signed in display dashboard type */}
           {currentUser ? (
             <Navbar.Link active={path === '/dashboard'} as={'div'}>
-              <Link to="/" className="font-semibold ">
+              <Link to="/dashboard" className="font-semibold ">
                 Dashboard
               </Link>
             </Navbar.Link>
