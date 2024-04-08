@@ -12,12 +12,29 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { toggleTheme } from '../redux/theme/themeSlice';
+import { signoutSuccess } from '../redux/user/userSlice';
 
 export default function Header() {
   const { currentUser } = useSelector((state: RootState) => state.user);
   // Get current theme
   const { theme } = useSelector((state: RootState) => state.theme);
   const dispatch = useDispatch();
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess(data));
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   const path = useLocation().pathname;
   return (
@@ -62,7 +79,7 @@ export default function Header() {
                 <Link to="/dashboard?tab=profile">Profile</Link>
               </DropdownItem>
               <DropdownDivider />
-              <DropdownItem>Sign out</DropdownItem>
+              <DropdownItem onClick={handleSignout}>Sign Out</DropdownItem>
             </Dropdown>
           ) : (
             <Link to="sign-in">
