@@ -27,6 +27,7 @@ export default function DashSidebar() {
                 Dashboard
               </Sidebar.Item>
             </Link>
+
             <Link to="/dashboard?tab=profile">
               <Sidebar.Item
                 active={tab === 'profile'}

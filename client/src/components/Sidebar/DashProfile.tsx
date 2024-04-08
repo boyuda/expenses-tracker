@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { Avatar, Button, TextInput } from 'flowbite-react';
+import { Avatar, Button, Label, TextInput } from 'flowbite-react';
 
 export default function DashProfile() {
   const { currentUser } = useSelector((state: RootState) => state.user);
@@ -17,24 +17,33 @@ export default function DashProfile() {
             className="w-full h-full border-2 rounded-full border-[lightgray] object-cover"
           />
         </div>
-        <TextInput
-          type="text"
-          id="username"
-          placeholder="username"
-          defaultValue={currentUser?.username}
-        />
-        <TextInput
-          type="email"
-          id="email"
-          placeholder="email"
-          defaultValue={currentUser?.email}
-        />
-        <TextInput
-          type="password"
-          id="password"
-          placeholder="username"
-          defaultValue={'********'}
-        />
+        <div>
+          <Label value="Your username" />
+          <TextInput
+            type="text"
+            id="username"
+            placeholder="username"
+            defaultValue={currentUser?.username}
+          />
+        </div>
+        <div>
+          <Label value="Your email" />
+          <TextInput
+            type="email"
+            id="email"
+            placeholder="email"
+            defaultValue={currentUser?.email}
+          />
+        </div>
+        <div>
+          <Label value="Your password" />
+          <TextInput
+            type="password"
+            id="password"
+            placeholder="username"
+            defaultValue={'********'}
+          />
+        </div>
         <Button type="submit" gradientDuoTone={'purpleToBlue'}>
           Update Details
         </Button>
