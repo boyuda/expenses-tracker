@@ -18,25 +18,25 @@ export default function DashSidebar() {
       <Sidebar className="w-full md:w-56">
         <Sidebar.Items>
           <Sidebar.ItemGroup className="flex flex-col gap-1">
-            <Link to="/dashboard?tab=main">
-              <Sidebar.Item
-                active={tab === 'dashboard'}
-                icon={HiChartPie}
-                title="Dashboard"
-              >
-                Dashboard
-              </Sidebar.Item>
-            </Link>
+            <Sidebar.Item
+              as={Link}
+              to="/dashboard?tab=main"
+              active={tab === 'dashboard'}
+              icon={HiChartPie}
+              title="Dashboard"
+            >
+              Dashboard
+            </Sidebar.Item>
 
-            <Link to="/dashboard?tab=profile">
-              <Sidebar.Item
-                active={tab === 'profile'}
-                icon={HiUser}
-                title="Profile"
-              >
-                Profile
-              </Sidebar.Item>
-            </Link>
+            <Sidebar.Item
+              as={Link}
+              to="/dashboard?tab=profile"
+              active={tab === 'profile'}
+              icon={HiUser}
+              title="Profile"
+            >
+              Profile
+            </Sidebar.Item>
 
             <Sidebar.Item icon={HiOutlineLogout} title="Sign Out">
               Sign Out

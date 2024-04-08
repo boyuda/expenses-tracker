@@ -24,8 +24,6 @@ const initialFormData: IUser = {
 export default function Signin() {
   // States
   const [formData, setFormData] = useState<IUser>(initialFormData);
-  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  // const [loading, setLoading] = useState<boolean>(false);
   const { loading, error: errorMessage } = useSelector(
     (state: RootState) => state.user
   );

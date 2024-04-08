@@ -1,15 +1,66 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { Avatar, Button, Label, TextInput } from 'flowbite-react';
+import { Alert, Avatar, Button, Label, TextInput } from 'flowbite-react';
+import { useState } from 'react';
+import {
+  updateFailure,
+  updateStart,
+  updateSuccess,
+} from '../../redux/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { HiInformationCircle } from 'react-icons/hi';
 
+// TODO: If using with typescript upon submittin it sets all the values to empty strings
 export default function DashProfile() {
+  // States
   const { currentUser } = useSelector((state: RootState) => state.user);
+  const [formData, setFormData] = useState({});
+  const [updateUserSuccess, setUpdateUserSuccess] = useState('');
+  const [updateUserError, setUpdateUserError] = useState('');
+  const dispatch = useDispatch();
+
+  // Handlers
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setUpdateUserError('');
+    setUpdateUserSuccess('');
+    if (Object.keys(formData).length === 0) {
+      setUpdateUserError('No Changes Made');
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const res = await fetch(`/api/user/update/${currentUser?._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(updateFailure(data.message));
+        setUpdateUserError(data.message);
+      } else {
+        dispatch(updateSuccess(data));
+        setUpdateUserSuccess('Users profile updated successfully!');
+      }
+    } catch (error: any) {
+      dispatch(updateFailure(error.message));
+      setUpdateUserError(error.message);
+    }
+  };
+
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       {/*  */}
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
-      <form className="flex flex-col gap-4">
-        <div className="w-32 h-32 self-center cursor-pointer">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="self-center cursor-pointer">
           <Avatar
             alt="user"
             rounded
@@ -24,6 +75,7 @@ export default function DashProfile() {
             id="username"
             placeholder="username"
             defaultValue={currentUser?.username}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -33,6 +85,7 @@ export default function DashProfile() {
             id="email"
             placeholder="email"
             defaultValue={currentUser?.email}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -42,15 +95,26 @@ export default function DashProfile() {
             id="password"
             placeholder="username"
             defaultValue={'********'}
+            onChange={handleChange}
           />
         </div>
         <Button type="submit" gradientDuoTone={'purpleToBlue'}>
           Update Details
         </Button>
-        <div className="text-red-400">
-          <span>Delete Account</span>
-        </div>
       </form>
+      <div className="text-red-400">
+        <span>Delete Account</span>
+      </div>
+      {updateUserSuccess && (
+        <Alert color="success" className="mt-5">
+          {updateUserSuccess}
+        </Alert>
+      )}
+      {updateUserError && (
+        <Alert color="failure" className="mt-5">
+          {updateUserError}
+        </Alert>
+      )}
     </div>
   );
 }
