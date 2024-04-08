@@ -1,22 +1,26 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { Alert, Avatar, Button, Label, TextInput } from 'flowbite-react';
+import { Alert, Avatar, Button, Label, Modal, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import {
   updateFailure,
   updateStart,
   updateSuccess,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
 } from '../../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
-import { HiInformationCircle } from 'react-icons/hi';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 // TODO: If using with typescript upon submittin it sets all the values to empty strings
 export default function DashProfile() {
   // States
-  const { currentUser } = useSelector((state: RootState) => state.user);
+  const { currentUser, error } = useSelector((state: RootState) => state.user);
   const [formData, setFormData] = useState({});
   const [updateUserSuccess, setUpdateUserSuccess] = useState('');
   const [updateUserError, setUpdateUserError] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
 
   // Handlers
@@ -52,6 +56,25 @@ export default function DashProfile() {
     } catch (error: any) {
       dispatch(updateFailure(error.message));
       setUpdateUserError(error.message);
+    }
+  };
+
+  const handleDeteleAccount = async () => {
+    setShowModal(false);
+
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser?._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(deleteUserFailure(data.message));
+      } else {
+        dispatch(deleteUserSuccess(data));
+      }
+    } catch (error: any) {
+      deleteUserFailure(error.message);
     }
   };
 
@@ -103,7 +126,9 @@ export default function DashProfile() {
         </Button>
       </form>
       <div className="text-red-400">
-        <span>Delete Account</span>
+        <span className="cursor-pointer" onClick={() => setShowModal(true)}>
+          Delete Account
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
@@ -115,6 +140,36 @@ export default function DashProfile() {
           {updateUserError}
         </Alert>
       )}
+      {error && (
+        <Alert color="failure" className="mt-5">
+          {error}
+        </Alert>
+      )}
+
+      <Modal
+        show={showModal}
+        size="md"
+        onClose={() => setShowModal(false)}
+        popup
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              Are you sure you want to delete this account?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={handleDeteleAccount}>
+                "Yes, I'm sure"
+              </Button>
+              <Button color="gray" onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
