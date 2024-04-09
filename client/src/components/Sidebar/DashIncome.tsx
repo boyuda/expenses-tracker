@@ -1,22 +1,57 @@
 import {
+  Alert,
   Button,
-  Datepicker,
   Label,
   Select,
   Table,
   TextInput,
   Textarea,
+  Spinner,
 } from 'flowbite-react';
 import { useState } from 'react';
 export default function DashIncome() {
   // States
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState<boolean>(false);
+
+  // Handler
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    //
+    //
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setErrorMessage(null);
+      const res = await fetch('/api/transactions/add-income', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setLoading(false);
+        setErrorMessage(data.message);
+        return;
+      }
+
+      if (res.ok) {
+        setErrorMessage(null);
+      }
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage('Something went wrong');
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="flex flex-col grow p-10 gap-10 md:flex-row">
+    <div className="flex flex-col grow p-10 gap-10 lg:flex-row">
       {/* Left side */}
       <div className="basis-1/4">
-        <form className="flex flex-col gap-1">
+        <form className="flex flex-col gap-1" onSubmit={handleSubmit}>
           <div>
             <Label value="Income Title" />
             <TextInput
@@ -24,6 +59,9 @@ export default function DashIncome() {
               placeholder="E.g. Salary"
               id="title"
               required
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
             />
           </div>
           <div>
@@ -33,6 +71,9 @@ export default function DashIncome() {
               placeholder="E.g. 500"
               id="amount"
               required
+              onChange={(e) =>
+                setFormData({ ...formData, amount: e.target.value })
+              }
             />
           </div>
           {/* Add income date functioanlity */}
@@ -42,7 +83,14 @@ export default function DashIncome() {
           </> */}
           <div>
             <Label value="Select Income Category" />
-            <Select id="category" required>
+            <Select
+              id="category"
+              required
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+            >
+              <option>Choose Category</option>
               <option>Salary</option>
               <option>Bank transfer</option>
               <option>Freelancing</option>
@@ -57,12 +105,30 @@ export default function DashIncome() {
               id="description"
               required
               maxLength={20}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
             />
           </div>
 
-          <Button gradientDuoTone="purpleToBlue" type="submit" className="mt-5">
-            Submit
+          <Button
+            gradientDuoTone="purpleToBlue"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Spinner size="sm" /> <span className="pl-3">Loading</span>
+              </>
+            ) : (
+              'Submit'
+            )}
           </Button>
+          {errorMessage && (
+            <Alert className="mt-5" color="failure">
+              {errorMessage}
+            </Alert>
+          )}
         </form>
       </div>
       {/* Right side */}

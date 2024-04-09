@@ -4,7 +4,7 @@ import Income from '../models/income.model.js';
 export const addIncome = async (req, res, next) => {
   //
   const { title, amount, category, description, date } = req.body;
-  const requiredFields = [title, amount, category, description, date];
+  const requiredFields = [title, amount, category, description];
   if (!requiredFields.every((field) => field)) {
     return next(errorHandler(400, 'All fields are required'));
   }
