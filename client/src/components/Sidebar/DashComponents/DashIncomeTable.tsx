@@ -4,9 +4,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
 export default function DashIncomeTable() {
+  //
+  // States
+  //
   const { currentUser } = useSelector((state: RootState) => state.user);
   const [userIncomes, setUserIncomes] = useState<any[]>([]);
-  console.log(userIncomes);
+  const [showMore, setShowMore] = useState(true);
+  //
+  // Effects
+  //
   useEffect(() => {
     // Fetching the data from the database and setting it to state
     const fetchIncomes = async () => {
@@ -15,18 +21,36 @@ export default function DashIncomeTable() {
         const data = await res.json();
         if (res.ok) {
           setUserIncomes(data.incomes);
+          if (data.incomes.length < 9) {
+            setShowMore(false);
+          }
         }
-        //
-        //
       } catch (error: any) {
-        //
         console.log(error.message);
-        //
       }
     };
     fetchIncomes();
   }, [currentUser]);
-
+  //
+  // Handlers
+  //
+  const handleShowMore = async () => {
+    const startIndex = userIncomes.length;
+    try {
+      const res = await fetch(
+        `/api/transactions/get-income?startIndex=${startIndex}`
+      );
+      const data = await res.json();
+      if (res.ok) {
+        setUserIncomes((prev) => [...prev, ...data.incomes]);
+        if (data.incomes.length < 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto grow scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {/* Right side */}
@@ -48,7 +72,7 @@ export default function DashIncomeTable() {
                     {income.title}
                   </Table.Cell>
                   <TableCell className="text-green-700 font-semibold">
-                    {income.amount}
+                    €{income.amount}
                   </TableCell>
                   <TableCell className="font-medium text-gray-700 dark:text-white">
                     {income.category}
@@ -63,6 +87,14 @@ export default function DashIncomeTable() {
               </Table.Body>
             ))}
           </Table>
+          {showMore && (
+            <button
+              onClick={handleShowMore}
+              className="w-full text-blue-500 text-sm py-7"
+            >
+              Show more
+            </button>
+          )}
         </>
       ) : (
         <span> No messages</span>

@@ -40,6 +40,7 @@ export default function DashIncome() {
 
       if (res.ok) {
         setErrorMessage(null);
+        setFormData({});
       }
       setLoading(false);
     } catch (error) {

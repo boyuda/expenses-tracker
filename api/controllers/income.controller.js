@@ -25,7 +25,7 @@ export const addIncome = async (req, res, next) => {
 export const getIncome = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === 'asc' ? 1 : -1;
 
     // Filter incomes based on userId
