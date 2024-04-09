@@ -36,7 +36,7 @@ export default function DashSidebar() {
     <div>
       <Sidebar className="w-full md:w-56">
         <Sidebar.Items>
-          <Sidebar.ItemGroup className="flex flex-col gap-1">
+          <Sidebar.ItemGroup className="flex flex-col gap-1 ">
             <Sidebar.Item
               as={Link}
               to="/dashboard?tab=main"
@@ -49,6 +49,25 @@ export default function DashSidebar() {
 
             <Sidebar.Item
               as={Link}
+              to="/dashboard?tab=income"
+              active={tab === 'income'}
+              icon={HiUser}
+              title="Income"
+            >
+              Income
+            </Sidebar.Item>
+            <Sidebar.Item
+              as={Link}
+              to="/dashboard?tab=expenses"
+              active={tab === 'Expense'}
+              icon={HiUser}
+              title="Expenses"
+            >
+              Expenses
+            </Sidebar.Item>
+
+            <Sidebar.Item
+              as={Link}
               to="/dashboard?tab=profile"
               active={tab === 'profile'}
               icon={HiUser}
@@ -56,7 +75,6 @@ export default function DashSidebar() {
             >
               Profile
             </Sidebar.Item>
-
             <Sidebar.Item
               onClick={handleSignout}
               icon={HiOutlineLogout}
