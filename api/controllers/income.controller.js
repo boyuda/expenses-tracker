@@ -21,3 +21,33 @@ export const addIncome = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getIncome = async (req, res, next) => {
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    const sortDirection = req.query.order === 'asc' ? 1 : -1;
+
+    // Filter incomes based on userId
+    const incomes = await Income.find({ userId: req.user.id })
+      .sort({ createdAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
+
+    //Get the sum of all the incoms
+    const totalIncomeSum = await Income.aggregate([
+      { $match: { userId: req.user.id } },
+      { $group: { _id: null, total: { $sum: '$amount' } } },
+    ]);
+    const total = totalIncomeSum.length > 0 ? totalIncomeSum[0].total : 0;
+
+    //Get the acount of all the income records of particular user
+    const totalIncomeCount = await Income.countDocuments({
+      userId: req.user.id,
+    });
+
+    res.status(200).json({ incomes, total, totalIncomeCount });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -132,7 +132,7 @@ export default function DashIncome() {
         </form>
       </div>
       {/* Right side */}
-      <div className="basis-1/2">
+      {/* <div className="basis-1/2">
         <div>
           <Table>
             <Table.Head>
@@ -159,7 +159,7 @@ export default function DashIncome() {
             </Table.Body>
           </Table>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
