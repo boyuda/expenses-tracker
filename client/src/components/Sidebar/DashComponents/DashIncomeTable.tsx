@@ -1,56 +1,17 @@
+import React from 'react';
 import { Table, TableCell, TableRow } from 'flowbite-react';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
 
-export default function DashIncomeTable() {
-  //
-  // States
-  //
-  const { currentUser } = useSelector((state: RootState) => state.user);
-  const [userIncomes, setUserIncomes] = useState<any[]>([]);
-  const [showMore, setShowMore] = useState(true);
-  //
-  // Effects
-  //
-  useEffect(() => {
-    // Fetching the data from the database and setting it to state
-    const fetchIncomes = async () => {
-      try {
-        const res = await fetch('/api/transactions/get-income');
-        const data = await res.json();
-        if (res.ok) {
-          setUserIncomes(data.incomes);
-          if (data.incomes.length < 9) {
-            setShowMore(false);
-          }
-        }
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    };
-    fetchIncomes();
-  }, [currentUser]);
-  //
-  // Handlers
-  //
-  const handleShowMore = async () => {
-    const startIndex = userIncomes.length;
-    try {
-      const res = await fetch(
-        `/api/transactions/get-income?startIndex=${startIndex}`
-      );
-      const data = await res.json();
-      if (res.ok) {
-        setUserIncomes((prev) => [...prev, ...data.incomes]);
-        if (data.incomes.length < 9) {
-          setShowMore(false);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+interface DashIncomeTableProps {
+  userIncomes: any[];
+  showMore: boolean;
+  handleShowMore: () => void;
+}
+
+const DashIncomeTable: React.FC<DashIncomeTableProps> = ({
+  userIncomes,
+  showMore,
+  handleShowMore,
+}) => {
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto grow scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500">
       {/* Right side */}
@@ -66,8 +27,11 @@ export default function DashIncomeTable() {
             </Table.Head>
             {/* Loop through each item to fill in the table */}
             {userIncomes.map((income) => (
-              <Table.Body>
-                <TableRow className=" bg-white dark:border-gray-700 dark:bg-gray-800">
+              <Table.Body key={income._id}>
+                <TableRow
+                  className=" bg-white dark:border-gray-700 dark:bg-gray-800"
+                  key={income.id}
+                >
                   <Table.Cell className="font-medium text-gray-700 dark:text-white">
                     {income.title}
                   </Table.Cell>
@@ -101,4 +65,6 @@ export default function DashIncomeTable() {
       )}
     </div>
   );
-}
+};
+
+export default DashIncomeTable;
