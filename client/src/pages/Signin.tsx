@@ -55,7 +55,7 @@ export default function Signin() {
       }
       if (res.ok) {
         dispatch(signInSuccess(data));
-        navigate('/dashboard');
+        navigate('/dashboard?tab=main');
       }
       // setLoading(false);
     } catch (error: any) {

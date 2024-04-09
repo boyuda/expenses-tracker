@@ -100,8 +100,8 @@ export default function Header() {
           </Navbar.Link>
           {/* If user signed in display dashboard type */}
           {currentUser ? (
-            <Navbar.Link active={path === '/dashboard'} as={'div'}>
-              <Link to="/dashboard" className="font-semibold ">
+            <Navbar.Link active={path === '/dashboard?tab=main'} as={'div'}>
+              <Link to="/dashboard?tab=main" className="font-semibold ">
                 Dashboard
               </Link>
             </Navbar.Link>
