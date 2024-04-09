@@ -1,5 +1,11 @@
 import { Sidebar } from 'flowbite-react';
-import { HiChartPie, HiOutlineLogout, HiUser } from 'react-icons/hi';
+import {
+  HiChartPie,
+  HiOutlineLogout,
+  HiUser,
+  HiTrendingUp,
+  HiTrendingDown,
+} from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -51,7 +57,7 @@ export default function DashSidebar() {
               as={Link}
               to="/dashboard?tab=income"
               active={tab === 'income'}
-              icon={HiUser}
+              icon={HiTrendingUp}
               title="Income"
             >
               Income
@@ -60,7 +66,7 @@ export default function DashSidebar() {
               as={Link}
               to="/dashboard?tab=expenses"
               active={tab === 'Expense'}
-              icon={HiUser}
+              icon={HiTrendingDown}
               title="Expenses"
             >
               Expenses

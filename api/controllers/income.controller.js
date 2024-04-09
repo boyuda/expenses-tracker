@@ -16,7 +16,7 @@ export const addIncome = async (req, res, next) => {
   const newIncome = new Income({ ...req.body, userId: req.user.id });
   try {
     const savedIncome = await newIncome.save();
-    res.status(201).json({ message: 'Added new income', savedIncome });
+    res.status(200).json({ message: 'Added new income', savedIncome });
   } catch (error) {
     next(error);
   }

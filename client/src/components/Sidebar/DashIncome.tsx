@@ -9,6 +9,7 @@ import {
   Spinner,
 } from 'flowbite-react';
 import { useState } from 'react';
+import DashIncomeTable from './DashComponents/DashIncomeTable';
 export default function DashIncome() {
   // States
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -46,11 +47,11 @@ export default function DashIncome() {
       setLoading(false);
     }
   };
-
+  // className="flex flex-col grow p-10  lg:flex-row lg:gap-10
   return (
-    <div className="flex flex-col grow p-10 gap-10 lg:flex-row">
+    <div className="flex flex-col grow p-10 2xl:flex-row gap-10">
       {/* Left side */}
-      <div className="basis-1/4">
+      <div className="basis-1/6">
         <form className="flex flex-col gap-1" onSubmit={handleSubmit}>
           <div>
             <Label value="Income Title" />
@@ -115,6 +116,7 @@ export default function DashIncome() {
             gradientDuoTone="purpleToBlue"
             type="submit"
             disabled={loading}
+            className="mt-5"
           >
             {loading ? (
               <>
@@ -160,6 +162,7 @@ export default function DashIncome() {
           </Table>
         </div>
       </div> */}
+      <DashIncomeTable />
     </div>
   );
 }
