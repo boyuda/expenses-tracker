@@ -9,7 +9,7 @@ import {
   Spinner,
 } from 'flowbite-react';
 
-interface DashIncomeFormProps {
+interface DashExpenseFormProps {
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
@@ -17,7 +17,7 @@ interface DashIncomeFormProps {
   errorMessage: string | null;
 }
 
-const DashIncomeForm: React.FC<DashIncomeFormProps> = ({
+const DashExpenseForm: React.FC<DashExpenseFormProps> = ({
   handleSubmit,
   formData,
   setFormData,
@@ -31,7 +31,7 @@ const DashIncomeForm: React.FC<DashIncomeFormProps> = ({
           <Label value="Title" />
           <TextInput
             type="text"
-            placeholder="E.g. Salary"
+            placeholder="E.g. Electricity"
             id="title"
             required
             value={formData.title || ''}
@@ -64,17 +64,21 @@ const DashIncomeForm: React.FC<DashIncomeFormProps> = ({
             }
           >
             <option>Choose Category</option>
-            <option>Salary</option>
-            <option>Bank transfer</option>
-            <option>Freelancing</option>
-            <option>Investments</option>
-            <option>Other</option>
+            <option>Education</option>
+            <option>Groceries</option>
+            <option>Health</option>
+            <option>Subscriptions</option>
+            <option>Takeaways</option>
+            <option>Clothing</option>
+            <option>Traveling</option>
+            <option>Rent</option>
+            <option>Utilities</option>
           </Select>
         </div>
         <div>
           <Label value="Description" />
           <Textarea
-            placeholder="E.g. Money from Mom"
+            placeholder="E.g. Day-200 Kw, Night-100 Kw"
             id="description"
             required
             maxLength={30}
@@ -109,4 +113,4 @@ const DashIncomeForm: React.FC<DashIncomeFormProps> = ({
   );
 };
 
-export default DashIncomeForm;
+export default DashExpenseForm;
