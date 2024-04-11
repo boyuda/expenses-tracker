@@ -24,9 +24,6 @@ const DashIncomeForm: React.FC<DashIncomeFormProps> = ({
   loading,
   errorMessage,
 }) => {
-  const handleSubmitButton = function (e: React.FormEvent<HTMLFormElement>) {
-    handleSubmit(e);
-  };
   return (
     <div className="basis-1/6">
       <form className="flex flex-col gap-1" onSubmit={handleSubmit}>
@@ -57,7 +54,7 @@ const DashIncomeForm: React.FC<DashIncomeFormProps> = ({
           />
         </div>
         <div>
-          <Label value="Select Income Category" />
+          <Label value="Income Category" />
           <Select
             id="category"
             required
