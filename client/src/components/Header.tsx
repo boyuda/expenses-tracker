@@ -47,7 +47,7 @@ export default function Header() {
             alt="Flowbite React Logo"
           />
           <span className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white">
-            Expense Tracker
+            Expense Trackers
           </span>
         </Navbar.Brand>
         <div className="flex gap-2 md:order-2">

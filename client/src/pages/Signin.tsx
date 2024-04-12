@@ -68,7 +68,7 @@ export default function Signin() {
         {/* Left Side */}
         <div className="flex-1">
           <span className=" font-bold dark:text-white text-4xl">
-            Expense Tracker
+            Expenses Tracker
           </span>
           <p className="text-sm mt-5">
             Lorem Ipsum is simply dummy text of the printing and typesetting
